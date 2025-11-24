@@ -1,0 +1,131 @@
+<%- include('header') -%>
+ <div class="container-fluid">
+    
+  <div style="width: 30px;height: 30px;border: 1px solid black;border-radius: 5px;justify-content: center;align-content: center;background-color: white;">
+      <button  class="navbar-toggler mx-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+</svg>
+      </span>
+    </button>
+  </div>
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/home/admin-login">Admin</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li>
+            <!-- <div class="collapse" id="account-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"> 
+    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New...</a>
+    </li> <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profile</a>
+    </li> <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Settings</a></li> 
+    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a>
+    </li>
+    </ul>
+    </div> -->
+ 
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             Post Category
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+               <li><a class="dropdown-item" href="/categories/Technology">Technology</a></li>
+      <li><a class="dropdown-item" href="/categories/Science">Science</a></li>
+      <li><a class="dropdown-item" href="/categories/Sports">Sports</a></li>
+       <li><a class="dropdown-item" href="/categories/Travel">Travel</a></li>
+       <li><a class="dropdown-item" href="/categories/Entertainment">Entertainment</a></li>
+        <li><a class="dropdown-item" href="/categories/Health">Health</a></li>
+         <li><a class="dropdown-item" href="/categories/Food">Food</a></li>
+          <li><a class="dropdown-item" href="/categories/Gaming">Gaming</a></li>
+           <li><a class="dropdown-item" href="/categories/Business">Business</a></li>
+            <li><a class="dropdown-item" href="/categories/Psychology">Psychology</a></li>
+            <li><a class="dropdown-item" href="/categories/Personal Development">Personal Development</a></li>
+            </ul>
+          </li>
+          
+        </ul>
+      <li style="list-style: none;">
+          <div class="collapse" id="dashboard-collapse" >
+           <li class="mb-1" style="list-style:none"> 
+      <li class="btn-toggle d-inline-flex align-items-center rounded border-0 collapsed my-3" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+Filter By:
+      </li> 
+<div class="collapse" id="orders-collapse"> 
+  <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"> 
+    <li>
+      <a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded" style="color: white;">All</a>
+    </li> <li>
+      <a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded" style="color: white;">Older</a>
+    </li> <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded" style="color: white;">Newer</a>
+    </li> <li>
+     
+        </div>
+         <li class="nav-item dropdown my-2" style="list-style: none;">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Account
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+            
+     
+         <li><a class="dropdown-item" href="/signup">New</a></li>
+         
+            <li><a class="dropdown-item" href="#" target="_blank">Signout</a></li>
+            </ul>
+          </li>
+      </div>
+      </li>
+    </div>
+  </div>
+ </div>
+
+       
+
+<div class="container">
+  
+    <% posts.forEach(post=>{ %>
+     
+          <div id="blogpost">
+           
+            
+ <h2 style="text-align: center;"><%= post.title %></h2>
+ 
+ <p> <%=post.content.substring(0,50) %>...</p>
+
+<a href="/home/posts/<%= post._id%>">Read More</a>
+<div style="margin-top: 200px; display: flex;">
+   <div class="categories mx-3 my-5"  style="justify-content: space-between;gap: 50px;margin-bottom: 40px;">
+    
+  
+    
+  <p><%= post.category %></p>
+ 
+</div>
+
+ </div>
+ </div>
+
+ 
+<% }) %>
+
+
+
+</div>
+<script>
+
+  
+
+  
+</script>
+
+<%- include('footer') -%>

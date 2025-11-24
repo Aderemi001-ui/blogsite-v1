@@ -1,0 +1,119 @@
+<%- include('header') -%>
+
+ <div class="container-fluid">
+    
+  <div style="width: 30px;height: 30px;border: 1px solid black;border-radius: 5px;justify-content: center;align-content: center;background-color: white;">
+      <button  class="navbar-toggler mx-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+</svg>
+      </span>
+    </button>
+  </div>
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/admin-login">Admin</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li>
+            <!-- <div class="collapse" id="account-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"> 
+    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New...</a>
+    </li> <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profile</a>
+    </li> <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Settings</a></li> 
+    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a>
+    </li>
+    </ul>
+    </div> -->
+ 
+          </li>
+         
+        </ul>
+      <li style="list-style: none;">
+          
+         <li class="nav-item dropdown my-2" style="list-style: none;">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Account
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+            
+     
+         <li><a class="dropdown-item" href="/signup">New</a></li>
+         
+            <li><a class="dropdown-item" target="_blank" >Signout</a></li>
+            </ul>
+          </li>
+      </div>
+      </li>
+    </div>
+  </div>
+ </div>
+    <form action="/" id="card" >
+    <div class="wordivs px-3 mx-5">
+        <label>TITLE :-</label>
+        <input type="text" required id="title" name="title" value="<%= task.title %>" onclick="checker()">
+    </div>
+     <div class="wordivs px-3 mx-5">
+        <label>MESSAGE :-</label>
+        <textarea required    id="message" name="message" ><%= task.content %></textarea>
+     </div>
+        <button  class="btn btn-primary mx-5" id="btn" onclick="edit('<%= task._id %>')">Save</button>
+</form>
+<style>
+    #card{
+        display: flex;
+        flex-direction: column;
+        box-shadow: 3px 0 10px black;
+        justify-content: center;
+        align-content: center;
+        justify-self: center;
+       align-self:center ;
+       width: 400px;
+       height: 450px;
+       gap: 15px;
+       border-radius: 15px;
+    }
+.wordivs{
+    display: flex;
+    flex-direction: column;
+}
+#message{
+    height: 200px;
+}
+#btn{
+    justify-self: center;
+    align-self: center;
+}
+</style>
+<script>
+function edit(id){
+  const title=document.getElementById('title').value
+const content=document.getElementById('message').value
+const data={
+  title:title,
+  content:content
+
+}
+axios.put(`/posts/${id}` , data )
+ 
+.then(()=>{
+  console.log('Post updated successfully')
+  
+})
+.catch(error=>{
+  console.error('Error updating posts',error)
+})
+}
+
+</script>
+
+<%- include('footer') -%>

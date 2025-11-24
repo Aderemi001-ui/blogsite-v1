@@ -1,0 +1,150 @@
+<%- include('header') -%>
+
+
+ <div class="container-fluid">
+    
+  <div style="width: 30px;height: 30px;border: 1px solid black;border-radius: 5px;justify-content: center;align-content: center;background-color: white;">
+      <button  class="navbar-toggler mx-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+</svg>
+      </span>
+    </button>
+  </div>
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/home/admin-login">Admin</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li>
+            <!-- <div class="collapse" id="account-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"> 
+    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New...</a>
+    </li> <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profile</a>
+    </li> <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Settings</a></li> 
+    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a>
+    </li>
+    </ul>
+    </div> -->
+ 
+          </li>
+        
+          
+        </ul>
+      <li style="list-style: none;">
+    
+         <li class="nav-item dropdown my-2" style="list-style: none;">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Account
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+            
+     
+         <li><a class="dropdown-item" href="/signup">New</a></li>
+         
+            <li><a class="dropdown-item" target="_blank" >Signout</a></li>
+            </ul>
+          </li>
+      </div>
+      </li>
+    </div>
+  </div>
+ </div>
+
+ 
+ <form style="box-shadow:3px 0 10px black;border-radius: 15px;" method="POST" > 
+            <div style="display: flex;flex-direction: column;height: 470px; gap: 10px; justify-self: center; align-self: center;justify-content: center;align-content:center;">
+              <h1 class="h3 mb-3 fw-normal mx-5" >Send Us A Mail</h1>
+             <div class="form-floating mx-5" >
+                 <input type="text" class="form-control " style="width:400px !important;" name="messagetitle" required  id="floatingInput" placeholder="write the title of your message">
+                 <label for="floatingInput" style="width:400px !important;">Title</label> 
+                </div>
+                <div class="form-floating mx-5" >
+                 <input type="email" class="form-control " style="width:400px !important;" name="email" required  id="floatingInput" placeholder="name@example.com">
+                 <label for="floatingInput" style="width:400px !important;">Sender email</label> 
+                </div>
+                  <div class="form-floating mx-5"> 
+                    <textarea type="password" class="form-control " style="width:400px !important;height: 200px;" name="messagecontent" required  id="floatingPassword" placeholder="Whats on your mind?"> </textarea>
+                    <label for="floatingPassword" style="width:400px !important;">Message</label>
+                 </div>
+                 <button class="btn btn-primary mx-5" style="justify-self: center;align-self: center;">Send</button>
+            </div>
+                 </form>
+ 
+
+<div id="socialcontainer  ">
+<div>
+    <div onclick="window.location.href='https://facebook.com/Abdulquadri Aderemi'">
+        <button class="socialdiv">
+        <img src="/images/facebook.jpg" class="social">
+   <h4>FACEBOOK</h4> 
+        </button>
+    </div>
+</div>
+<div>
+    <div onclick="window.location.href='https://github.com/Aderemi001-ui'">
+    <button class="socialdiv">
+    <img src="/images/github.jpg" class="social" >
+<h4>GITHUB</h4>
+    </button>
+</div>
+</div>
+
+
+
+<div>
+    <div onclick="window.location.href='https://www.linkedin.com/in/abdulquadri-aderemi-b918ab36a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app'">
+    <button class="socialdiv">
+    <img src="/images/linkedin.jpg"class="social">
+     <h4>LINKEDIN</h4> 
+    </button>
+</div>
+</div>
+<div>
+    <div onclick="window.location.href='https://wa.me/08120082171'">
+    <button class="socialdiv">
+    <img src="/images/whatsapp.jpg" class="social">
+     <h4>WHATSAPP</h4> 
+    </button>
+</div>
+</div>
+<div>
+    <div onclick="window.location.href='https://x.com/Aderemi_ade01?t=B5snNI5xQXVy_yJvH3MKQw&s=09'">
+    <button class="socialdiv">
+    <img src="/images/x.jpg" class="social">
+     <h4>X</h4> 
+    </button>
+</div>
+</div>
+</div>
+
+<script>
+  async function sender(){
+    const float=document.querySelectorAll('#floatingInput')
+    const pass=document.querySelector('#floatingPassword')
+    const to=float[0].value
+    const title=float[1].value
+    const message=pass.value
+try{
+  const response=await axios.post('/contact',{
+to,
+title,
+message
+})
+console.log(response)
+location.reload()
+}catch(error){
+  console.log('Error:',error)
+}
+  }
+</script>
+<%- include('footer') -%>

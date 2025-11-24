@@ -1,0 +1,69 @@
+<%- include('header') -%>
+
+ <div class="container-fluid">
+    
+  <div style="width: 30px;height: 30px;border: 1px solid black;border-radius: 5px;justify-content: center;align-content: center;">
+      <button  class="navbar-toggler mx-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+</svg>
+      </span>
+    </button>
+  </div>
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/home/admin-login">Admin</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li>
+            <!-- <div class="collapse" id="account-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"> 
+    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New...</a>
+    </li> <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Profile</a>
+    </li> <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Settings</a></li> 
+    <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a>
+    </li>
+    </ul>
+    </div> -->
+ 
+          </li>
+         
+          
+        </ul>
+    
+         <li class="nav-item dropdown my-2" style="list-style: none;">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Account
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+            
+     
+         <li><a class="dropdown-item" href="/signup">New</a></li>
+          <li><a class="dropdown-item" href="#">Profile</a></li>
+           <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="_blank">Signout</a></li>
+            </ul>
+          </li>
+      </div>
+      </li>
+    </div>  
+  </div>
+ </div>
+<div  style="text-align: center;">
+    <h1 style="text-align: center;">About <i>NEXA</i></h1>
+<p style='width:400px;'>
+    Welcome to <i> <b>NEXA</b> </i> , a dynamic platform that encourages creativity , connection through its diverse scope of information amongst its users.Our blog creates a platform for users to share their undiluted opinions ; be it political,technological,scientific,educational,health,gaming or other varieties of categories of information diversely available on this platform.With this intuitive interface , users can create posts that resonate with lots of the many users on the app . Join the  <i>NEXA</i>  community to explore a plethora of creatively composed narratives and connect with a world of ideas that reflect the intelligent nature of users . <i><b>NEXA :- Where stories shape tomorrow. </b></i>
+</p>
+
+</div>
+
+<%- include('footer') -%>
