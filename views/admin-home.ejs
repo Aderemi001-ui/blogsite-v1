@@ -102,8 +102,9 @@ Filter By:
   <p><%= post.category %></p>
  
 </div>
-
+ <button id="delete" onclick="remover('<%=post._id %>')">Delete</button>
  </div>
+
  </div>
 
  
@@ -113,7 +114,17 @@ Filter By:
 </div>
 <script>
 
-  
+  function remover(id){
+    axios.delete(`/home/admin-home/${id}`)
+    .then(()=>{
+     
+      console.log('post deleted successfully')
+      location.reload()
+    })
+    .catch(error=>{
+      console.error('Error deleting post',error)
+    })
+  }
 
   
 </script>

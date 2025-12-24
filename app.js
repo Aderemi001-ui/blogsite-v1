@@ -261,6 +261,30 @@ if(!username && !password){
         console.log('Error deleting user!! ',error)
     })
  })
+  app.delete('/home/admin-home/:id',(req,res)=>{
+    blogTask.findByIdAndDelete(req.params.id)
+    .then(()=>{
+        console.log('User successfully deleted!')
+        res.render('admin-home')
+    })
+    .catch(error=>{
+        console.log('Error deleting task!! ',error)
+    })
+ })
+ app.get('/home/admin-home',(req,res)=>{
+    blogTask.find()
+.then(posts=>{
+    
+res.render('admin-home',{posts:posts})
+console.log(posts)
+
+})
+.catch(error=>{
+    console.error('Error fetching posts: ',error)
+    res.render('home')
+})
+   
+})
 app.get('/home/admin-login',(req,res)=>{
     res.render('admin-login')
 })
