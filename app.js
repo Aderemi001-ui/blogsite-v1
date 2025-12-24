@@ -109,7 +109,7 @@ try{
     }else{
         console.log('User with same credentials already exists,Pls sign in with right credentials instead!')
 console.log(user_x)
-res.render('/')
+res.render('login')
     }
 
 })

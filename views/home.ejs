@@ -40,17 +40,17 @@
              Post Category
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-               <li><a class="dropdown-item" href="/categories/Technology">Technology</a></li>
-      <li><a class="dropdown-item" href="/categories/Science">Science</a></li>
-      <li><a class="dropdown-item" href="/categories/Sports">Sports</a></li>
-       <li><a class="dropdown-item" href="/categories/Travel">Travel</a></li>
-       <li><a class="dropdown-item" href="/categories/Entertainment">Entertainment</a></li>
-        <li><a class="dropdown-item" href="/categories/Health">Health</a></li>
-         <li><a class="dropdown-item" href="/categories/Food">Food</a></li>
-          <li><a class="dropdown-item" href="/categories/Gaming">Gaming</a></li>
-           <li><a class="dropdown-item" href="/categories/Business">Business</a></li>
-            <li><a class="dropdown-item" href="/categories/Psychology">Psychology</a></li>
-            <li><a class="dropdown-item" href="/categories/Personal Development">Personal Development</a></li>
+               <li><a class="dropdown-item" href="home/categories/Technology">Technology</a></li>
+      <li><a class="dropdown-item" href="home/categories/Science">Science</a></li>
+      <li><a class="dropdown-item" href="home/categories/Sports">Sports</a></li>
+       <li><a class="dropdown-item" href="home/categories/Travel">Travel</a></li>
+       <li><a class="dropdown-item" href="home/categories/Entertainment">Entertainment</a></li>
+        <li><a class="dropdown-item" href="home/categories/Health">Health</a></li>
+         <li><a class="dropdown-item" href="home/categories/Food">Food</a></li>
+          <li><a class="dropdown-item" href="home/categories/Gaming">Gaming</a></li>
+           <li><a class="dropdown-item" href="home/categories/Business">Business</a></li>
+            <li><a class="dropdown-item" href="home/categories/Psychology">Psychology</a></li>
+            <li><a class="dropdown-item" href="home/categories/Personal Development">Personal Development</a></li>
             </ul>
           </li>
           
@@ -76,10 +76,7 @@ Filter By:
               Account
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-            
-     
-         <li><a class="dropdown-item" href="/signup">New</a></li>
-         
+         <li><a class="dropdown-item" href="/signup">New</a></li>     
             <li><a class="dropdown-item" href="#" target="_blank">Signout</a></li>
             </ul>
           </li>
@@ -88,9 +85,6 @@ Filter By:
     </div>
   </div>
  </div>
-
-       
-
 <div class="container">
   
     <% posts.forEach(post=>{ %>
@@ -99,15 +93,10 @@ Filter By:
            
             
  <h2 style="text-align: center;"><%= post.title %></h2>
- 
  <p> <%=post.content.substring(0,50) %>...</p>
-
 <a href="/home/posts/<%= post._id%>">Read More</a>
 <div style="margin-top: 200px; display: flex;">
    <div class="categories mx-3 my-5"  style="justify-content: space-between;gap: 50px;margin-bottom: 40px;">
-    
-  
-    
   <p><%= post.category %></p>
  
 </div>
