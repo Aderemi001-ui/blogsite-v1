@@ -106,7 +106,7 @@ try{
         user.create(credentials)
        
         console.log('User successfully registered',)
-        res.redirect('/home')
+        res.redirect('/')
     }else{
         console.log('User with same credentials already exists,Pls sign in with right credentials instead!')
 
