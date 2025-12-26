@@ -13,6 +13,8 @@ background-color: whitesmoke;
     
 }
 
+
+
 .dropdown-item:hover{
     background-color: blue;
 }
@@ -89,6 +91,15 @@ background-color: whitesmoke;
     margin-top: -15px;
 }
 #add{
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-top: 10px;
+    place-self: inherit;
+    background-color: blue;
+    border: none;
+}
+#add2{
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -192,12 +203,7 @@ margin-bottom: 30px;
     margin: 10px;
 }
 
-#signin{
-    display: flex;
-    flex-direction: column;
-     gap: 10px;
-     margin-top: 100px;
-}
+
 .h3{
     margin-left: 100px !important;
 }
@@ -230,6 +236,26 @@ height: 50px;
   
 }
 
+
+#signin{
+ justify-content: center;
+ align-self:self-start;
+ margin-top: -1000px;
+ width: 400px;
+ padding: 20px;
+ z-index: 0;
+}
+.a{
+
+  margin-left: 480px !important; width: fit-content;
+}
+.remembers{
+  margin-right: 300px;
+}
+.btn{
+z-index: 1;
+margin-left: 200px;
+}
 #checkDefault{
     margin-left: 480px !important;
 }
@@ -284,7 +310,11 @@ align-content: center;
     justify-content: center;
     align-content: center;
     text-align: center;
-    
+    width: 500px;
+
+}
+#add{
+    margin-right: 45px;
 }
 #blogpost{
     width:390px !important;
@@ -300,12 +330,11 @@ align-content: center;
     display: flex;
     flex-direction: column;
      gap: 10px;
-     margin-top: 100px;
-     margin-left: 500px;
+    justify-self: center !important;
+  
 }
-#signin{
- margin-left: 100px;
-}
+
+
    
 .d-flex{
     width: 400px;
@@ -352,7 +381,7 @@ margin-left: -8px;
   display: flex;
   gap: 25px;
   margin-top: 25px;
-  margin-left: 10px;
+  margin-left: 35px;
   border: none;
 }
 
@@ -405,5 +434,19 @@ margin-left: 10px;
 }
 .textlabel{
     margin-left: 20px;
+}
+.contactform{
+    box-shadow:3px 0 10px black;
+    border-radius: 15px;
+width:400px;
+height: 500px;
+justify-content: center;
+align-content: center;
+justify-self: center;
+align-self: center;
+margin-left: 40px;
+}
+.contactcontainer{
+    display: flex;flex-direction: column;height: 470px; gap: 10px; justify-self: center; align-self: center;justify-content: center;align-content:center;
 }
 }

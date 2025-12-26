@@ -265,7 +265,7 @@ if(!username && !password){
     blogTask.findByIdAndDelete(req.params.id)
     .then(()=>{
         console.log('User successfully deleted!')
-        res.render('admin-home')
+        res.redirect('admin-home')
     })
     .catch(error=>{
         console.log('Error deleting task!! ',error)
