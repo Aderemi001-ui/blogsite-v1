@@ -77,6 +77,7 @@ user.findOne({email:email}&&{password:password})
         res.redirect('/home')
     }else{
 console.log('user with this credentials not found')
+
 res.render('login')
     }
 })
@@ -108,7 +109,8 @@ try{
         res.redirect('/home')
     }else{
         console.log('User with same credentials already exists,Pls sign in with right credentials instead!')
-console.log(user_x)
+
+        console.log(user_x)
 res.render('login')
     }
 
