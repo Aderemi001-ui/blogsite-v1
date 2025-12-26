@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="css/blog.css">
 </head>
 <body>
-     <form style="display: flex;flex-direction: column; gap: 10px;margin-top: 100px;" method="POST" > 
+     <form style="display: flex;flex-direction: column; gap: 10px;margin-top: 100px;" id="form" method="POST" > 
             <h1 class="h3 mb-3 fw-normal" style="text-align: center;">Please sign in</h1>
              <div class="form-floating mx-5" >
                  <input type="text" class="form-control "  required   id="floatingInput" placeholder="name@example.com">
@@ -36,6 +36,9 @@
   width: 200px;
   justify-self: center;
   margin-left: 150px;
+}
+#form{
+  margin-left: -50px;
 }
   }
 </style>
