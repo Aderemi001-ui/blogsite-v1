@@ -3,6 +3,7 @@ body{
     text-align: start;
 height: auto;
 background-color: whitesmoke;
+overflow: auto;
 }
 .containernav{
     display: flex;
@@ -12,8 +13,11 @@ background-color: whitesmoke;
     text-align: center;
     
 }
-
-
+ .reflect{
+    margin-left:-470px;
+    margin-right: 500px;
+    position: relative;
+ }
 
 .dropdown-item:hover{
     background-color: blue;
@@ -214,7 +218,7 @@ margin-bottom: 30px;
     width:400px !important;margin-left: 450px !important;
 }
 .mtitle{
-     width:380px !important;
+     width:360px !important;
    
      justify-self: center;
 border: none;
@@ -223,12 +227,12 @@ height: 50px;
 
 }
 .mlabel{
-   width:400px !important;
+   width:360px !important;
    justify-self: center;
    
 }
 .text{
-    width: 380px;
+    width: 360px;
     height: 200px;
  border: none;
  border-radius: 5px;
@@ -279,6 +283,7 @@ align-content: center;
 .contactcontainer{
     display: flex;flex-direction: column;height: 470px; gap: 10px; justify-self: center; align-self: center;justify-content: center;align-content:center;
 }
+
 
 @media(max-width:500px){
     body{
@@ -334,7 +339,11 @@ align-content: center;
     justify-self: center !important;
   
 }
-
+ .reflect{
+    margin-left:170px;
+  margin-bottom:-50px;
+    visibility: visible;
+ }
 
    
 .d-flex{
