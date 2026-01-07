@@ -51,6 +51,7 @@ category:String
 
 const blogTask=mongoose.model('blogTask',blogSchema)
 const user= mongoose.model('user',userSchema)
+
 const admin= mongoose.model('admin',adminSchema)
 const transporter=nodemailer.createTransport({
     service:'gmail',
@@ -60,6 +61,7 @@ const transporter=nodemailer.createTransport({
     },
     debug:true
 })
+ 
 app.get('/home/blog', (req,res)=>{
 res.render('blog' )
  })
@@ -79,7 +81,7 @@ user.findOne({email:email}&&{password:password})
     if(user_x){
         console.log('User found')
         console.log(user_x)
-        res.redirect('/home')
+        res.redirect(`/home`)
     }else{
 console.log('user with this credentials not found')
 
@@ -172,10 +174,12 @@ res.redirect('/home')
 })
 
  })
- app.get('/home', (req,res)=>{
+
+ app.get(`/home`, (req,res)=>{
+   
 blogTask.find()
 .then(posts=>{
-    
+  
 res.render('home',{posts:posts})
 console.log(posts)
 
