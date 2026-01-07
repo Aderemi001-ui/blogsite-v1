@@ -3,12 +3,17 @@ const bodyParser=require('body-parser')
 const _=require('lodash')
 const ejs=require('ejs')
 const mongoose=require('mongoose')
+ require('dotenv').config()
+
 const nodemailer=require ('nodemailer')
 const app= express()
  app.use(express.static('public'))
  app.use(bodyParser.urlencoded({extended:true}))
  app.set('view engine','ejs')
  app.use(express.json())
+
+ 
+  
  const response= mongoose.connect('mongodb+srv://glamaurora001_db_user:rOyqavlXcENy5WOp@blogsite-v1.k7c1e2h.mongodb.net/?appName=BLOGSITE-V1')
   
  response.then(()=>{
@@ -239,12 +244,16 @@ console.log(task)
 
  })
  app.post('/home/admin-login',(req,res)=>{
-    const username='NEXADMIN'
-    const password='NEXA001'
+     const {user}=req.body
+    const {pass}=req.body
+    const username=process.env.ADMIN_USERNAME
+    const password=process.env.ADMIN_PASSWORD
     try{
-if(!username && !password){
+if(user!==username && pass!==password){
     console.log('Wrong sign in parameters!')
-    res.render('/home/admin-login')
+//  res.redirect('/home/admin-login')
+ modal.showModal()
+
 }else{
     console.log('Admin sign-in successful')
     res.redirect('/home/admin')
