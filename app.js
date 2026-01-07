@@ -12,7 +12,7 @@ const app= express()
  app.set('view engine','ejs')
  app.use(express.json())
 
- 
+
   
  const response= mongoose.connect('mongodb+srv://glamaurora001_db_user:rOyqavlXcENy5WOp@blogsite-v1.k7c1e2h.mongodb.net/?appName=BLOGSITE-V1')
   
@@ -251,7 +251,7 @@ console.log(task)
     try{
 if(user!==username && pass!==password){
     console.log('Wrong sign in parameters!')
-//  res.redirect('/home/admin-login')
+ res.redirect('/home/admin-login')
  modal.showModal()
 
 }else{
