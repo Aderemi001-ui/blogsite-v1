@@ -40,17 +40,17 @@
              Post Category
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
-               <li><a class="dropdown-item" href="home/categories/Technology">Technology</a></li>
-      <li><a class="dropdown-item" href="home/categories/Science">Science</a></li>
-      <li><a class="dropdown-item" href="home/categories/Sports">Sports</a></li>
-       <li><a class="dropdown-item" href="home/categories/Travel">Travel</a></li>
-       <li><a class="dropdown-item" href="home/categories/Entertainment">Entertainment</a></li>
-        <li><a class="dropdown-item" href="home/categories/Health">Health</a></li>
-         <li><a class="dropdown-item" href="home/categories/Food">Food</a></li>
-          <li><a class="dropdown-item" href="home/categories/Games">Gaming</a></li>
-           <li><a class="dropdown-item" href="home/categories/Business">Business</a></li>
-            <li><a class="dropdown-item" href="home/categories/Psychology">Psychology</a></li>
-            <li><a class="dropdown-item" href="home/categories/Personal Development">Personal Development</a></li>
+               <li><a class="dropdown-item" href="/user/<%= currentUser._id %>/categories/Technology">Technology</a></li>
+      <li><a class="dropdown-item" href="/user/<%= currentUser._id %>/categories/Science">Science</a></li>
+      <li><a class="dropdown-item" href="/user/<%= currentUser._id %>/categories/Sports">Sports</a></li>
+       <li><a class="dropdown-item" href="/user/<%= currentUser._id %>/categories/Travel">Travel</a></li>
+       <li><a class="dropdown-item" href="/user/<%= currentUser._id %>/categories/Entertainment">Entertainment</a></li>
+        <li><a class="dropdown-item" href="/user/<%= currentUser._id %>/categories/Health">Health</a></li>
+         <li><a class="dropdown-item" href="/user/<%= currentUser._id %>/categories/Food">Food</a></li>
+          <li><a class="dropdown-item" href="/user/<%= currentUser._id %>/categories/Games">Gaming</a></li>
+           <li><a class="dropdown-item" href="/user/<%= currentUser._id %>/categories/Business">Business</a></li>
+            <li><a class="dropdown-item" href="/user/<%= currentUser._id %>/categories/Psychology">Psychology</a></li>
+            <li><a class="dropdown-item" href="/user/<%= currentUser._id %>/categories/Personal Development">Personal Development</a></li>
             </ul>
           </li>
           
@@ -90,11 +90,11 @@ Filter By:
     <% posts.forEach(post=>{ %>
      
           <div id="blogpost" >
-           
+ 
             
  <h2 style="text-align: center;"><%= post.title %></h2>
  <p> <%=post.content.substring(0,50) %>...</p>
-<a href="/home/posts/<%= post._id%>">Read More</a>
+<a href="/user/<%= currentUser._id %>/posts/<%= post._id%>">Read More</a>
 <div style="margin-top: 200px; display: flex;">
    <div class="categories mx-3 my-5"  style="justify-content: space-between;gap: 50px;margin-bottom: 40px;">
   <p><%= post.category %></p>

@@ -100,6 +100,7 @@ overflow: auto;
     height: 40px;
     margin-top: 10px;
     place-self: inherit;
+   
     background-color: blue;
     border: none;
 }
@@ -111,6 +112,9 @@ overflow: auto;
     place-self: inherit;
     background-color: blue;
     border: none;
+}
+#add2:hover{
+    box-shadow: 0 2px 5px black;
 }
 
 .socialdiv{
@@ -182,6 +186,7 @@ margin-bottom: 30px;
     text-align: center;
     color: white;
     padding-top: 5px;
+
 }
 .imgnav:hover{
     box-shadow: 0px 2px 5px black;

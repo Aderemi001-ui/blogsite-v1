@@ -12,7 +12,20 @@ const app= express()
  app.set('view engine','ejs')
  app.use(express.json())
 
+// ────────────────────────────────────────────────
+// Add this middleware - makes currentUser available in all views
+// ────────────────────────────────────────────────
+app.use((req, res, next) => {
+  res.locals.currentUser = null;
 
+  // Very simple user detection based on route parameter (temporary solution)
+  if (req.params.userid) {
+    res.locals.currentUser = { _id: req.params.userid };
+  }
+  
+  // You can improve this later with real sessions
+  next();
+});
   
  const response= mongoose.connect('mongodb+srv://glamaurora001_db_user:rOyqavlXcENy5WOp@blogsite-v1.k7c1e2h.mongodb.net/?appName=BLOGSITE-V1')
   
@@ -25,12 +38,7 @@ const app= express()
  
  const posts=[]
 
-  userSchema=new mongoose.Schema({
-    FirstName:String,
-    LastName:String,
-    email:String,
-    password:String
-  })
+ 
   adminSchema=new mongoose.Schema({
     username:{
         type:String,
@@ -39,18 +47,31 @@ const app= express()
        password:{
         type:String,
         required:true
+       },
+      userSchema:{
+        type:String
        }
     
   })
   
   blogSchema=new mongoose.Schema({
+    userId:mongoose.Schema.Types.ObjectId,
 title:String,
 content:String,
 category:String
  })
-
+ userSchema=new mongoose.Schema({
+    id:mongoose.Schema.Types.ObjectId,
+    FirstName:String,
+    LastName:String,
+    email:String,
+    password:String,
+blogSchema:String
+  })
 const blogTask=mongoose.model('blogTask',blogSchema)
 const user= mongoose.model('user',userSchema)
+
+
 
 const admin= mongoose.model('admin',adminSchema)
 const transporter=nodemailer.createTransport({
@@ -61,40 +82,37 @@ const transporter=nodemailer.createTransport({
     },
     debug:true
 })
- 
-app.get('/home/blog', (req,res)=>{
-res.render('blog' )
+ var array=[]
+app.get('/user/:userid/blog', (req,res)=>{
+
+res.render('blog')
  })
 
-app.get('/home/about', (req,res)=>{
-res.render('about' )
+app.get('/user/:userid/about', (req,res)=>{
+res.render('about')
  })
- app.get('/home/contact', (req,res)=>{
-res.render('contact' )
+ app.get('/user/:userid/contact', (req,res)=>{
+res.render('contact')
  })
- app.post('/',(req,res)=>{
-     const {email}=req.body
-    const {password}=req.body
-    try{
-user.findOne({email:email}&&{password:password})
-.then(user_x=>{
-    if(user_x){
-        console.log('User found')
-        console.log(user_x)
-        res.redirect(`/home`)
-    }else{
-console.log('user with this credentials not found')
+app.post('/', async (req, res) => {
+  const { email, password } = req.body;
 
-res.render('login')
+  try {
+    const foundUser = await user.findOne({ email: email });
+
+    if (!foundUser || foundUser.password !== password) {   // ← note: plaintext comparison (bad!)
+      return res.render('login', { error: 'Invalid email or password' });
     }
-})
-.catch(error=>{
-    console.error('Error fetching user',error)
-})
-    }catch(error){
-console.log(error)
-    }
- })
+
+    // Redirect with user ID in URL (temporary — sessions would be better)
+    res.redirect(`/user/${foundUser._id}/home`);
+    
+  } catch (err) {
+    console.error('Login error:', err);
+    res.render('login', { error: 'Something went wrong' });
+  }
+});
+
  app.get('/',(req,res)=>{
     res.render('login')
  })
@@ -111,8 +129,9 @@ try{
      
     if(!user_x){
         user.create(credentials)
-       
         console.log('User successfully registered',)
+     array.push(user_x._id)
+
         res.redirect('/')
     }else{
         console.log('User with same credentials already exists,Pls sign in with right credentials instead!')
@@ -136,10 +155,14 @@ console.log(error)
  app.get('/signup',(req,res)=>{
     res.render('signup')
  })
- app.post('/home/contact',async(req,res)=>{
+ app.post('/user/:userid/contact',async(req,res)=>{
     const subject=req.body.messagetitle
-    const message=req.body.messagecontent
-   
+    const message=`
+    <h2>Email: ${req.body.email}</h2>
+    <h1>${req.body.messagetitle}</h1>
+    <p>${req.body.messagecontent}</p>
+    `
+
     const mailoptions={
         from:`${req.body.email}`,
         to:'abdulquadriaderemi52@gmail.com',
@@ -155,18 +178,18 @@ console.error('Error sending mail',error)
 res.status(500).json({error:'Failed to send email'})
     }
  })
-app.post('/home/blog', (req,res)=>{
+app.post('/user/:userid/blog', (req,res)=>{
 const post={
     title:req.body.title,
     content:req.body.message ,
     category:req.body.category,
-    poster:req.params.name
+    poster:req.params.Firstname
 }
 blogTask.create(post)
 .then(()=>{
 console.log(post)
 
-res.redirect('/home')
+res.redirect('/user/:userid/home')
 
 })
 .catch(error=>{
@@ -175,22 +198,26 @@ res.redirect('/home')
 
  })
 
- app.get(`/home`, (req,res)=>{
-   
-blogTask.find()
-.then(posts=>{
-  
-res.render('home',{posts:posts})
-console.log(posts)
+ 
 
-})
-.catch(error=>{
-    console.error('Error fetching posts: ',error)
-    res.render('home')
-})
- })
+ app.get('/user/:userid/home', async (req, res) => {
+  try {
+    const posts = await blogTask.find()
+      .sort({ _id: -1 })          // newest first
+      .lean();                    // better performance for plain objects
 
- app.get('/home/categories/:category',(req,res)=>{ 
+    res.render('home', { 
+      posts,
+      // currentUser is already set by middleware, but we can make sure
+      currentUser: { _id: req.params.userid }
+    });
+  } catch (err) {
+    console.error('Error loading home:', err);
+    res.render('home', { posts: [], error: 'Could not load posts' });
+  }
+});
+
+ app.get('/user/:userid/categories/:category',(req,res)=>{ 
     const category= req.params.category
     blogTask.find({category:category})
  .then(posts=>{
@@ -201,7 +228,7 @@ res.render('category',{task:posts,category:category})
     console.log('Error fetching tasks',error)
  })
  })
- app.delete('/home/posts/:id',(req,res)=>{
+ app.delete('/user/:userid/posts/:id',(req,res)=>{
     blogTask.findByIdAndDelete(req.params.id)
     .then(()=>{
         
@@ -213,7 +240,7 @@ res.render('category',{task:posts,category:category})
     console.error('Error deleting posts',error)
 })
  })
- app.get('/home/posts/:id/edit',(req,res)=>{
+ app.get('/user/:userid/posts/:id/edit',(req,res)=>{
     blogTask.findById(req.params.id)
     .then(task=>{
         console.log('Post found')
@@ -224,7 +251,7 @@ res.render('category',{task:posts,category:category})
         res.status(400).send()
     })
  })
- app.put('/home/posts/:id',(req,res)=>{
+ app.put('/user/:userid/posts/:id',(req,res)=>{
   const find=  blogTask.findByIdAndUpdate(req.params.id,{title:req.body.title,content:req.body.content})
     .then(()=>{
     console.log('Post has been updated successfully ')
@@ -235,7 +262,7 @@ res.render('category',{task:posts,category:category})
         console.error('Error updating tasks',error)
     })
  })
- app.get('/home/posts/:id' ,(req,res)=>{
+ app.get('/user/:userid/posts/:id' ,(req,res)=>{
 blogTask.findById(req.params.id)
 .then( task=>{
     res.render('post',{task:task})
@@ -247,7 +274,7 @@ console.log(task)
 })
 
  })
- app.post('/home/admin-login',(req,res)=>{
+ app.post('/admin-login',(req,res)=>{
      const {user}=req.body
     const {pass}=req.body
     const username=process.env.ADMIN_USERNAME
@@ -260,13 +287,13 @@ if(user!==username && pass!==password){
 
 }else{
     console.log('Admin sign-in successful')
-    res.redirect('/home/admin')
+    res.redirect('/admin')
 }
     }catch(error){
 
     }
  })
- app.delete('/home/admin/:id',(req,res)=>{
+ app.delete('/admin/:id',(req,res)=>{
     user.findByIdAndDelete(req.params.id)
     .then(()=>{
         console.log('User successfully deleted!')
@@ -276,7 +303,7 @@ if(user!==username && pass!==password){
         console.log('Error deleting user!! ',error)
     })
  })
-  app.delete('/home/admin-home/:id',(req,res)=>{
+  app.delete('/admin-home/:id',(req,res)=>{
     blogTask.findByIdAndDelete(req.params.id)
     .then(()=>{
         console.log('User successfully deleted!')
@@ -286,7 +313,7 @@ if(user!==username && pass!==password){
         console.log('Error deleting task!! ',error)
     })
  })
- app.get('/home/admin-home',(req,res)=>{
+ app.get('/admin-home',(req,res)=>{
     blogTask.find()
 .then(posts=>{
     
@@ -300,10 +327,10 @@ console.log(posts)
 })
    
 })
-app.get('/home/admin-login',(req,res)=>{
+app.get('/admin-login',(req,res)=>{
     res.render('admin-login')
 })
-app.get('/home/admin',(req,res)=>{
+app.get('/admin',(req,res)=>{
 const FirstName=req.params.FName
     const LastName=req.params.LName
     user.find(req.params.id)
@@ -322,3 +349,5 @@ const FirstName=req.params.FName
  app.listen(3000,()=>{
     console.log('SERVER IS RUNNING ON PORT 3000!!')
  })
+
+  
