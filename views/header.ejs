@@ -12,13 +12,13 @@
 <body>
    <div class="containernav"> `
    
-    <header class="d-flex flex-wrap align-items-center justify-content-center py-3 mb-4 border-bottom my-5"> 
+    <header class="d-flex flex-wrap align-items-center justify-content-center py-3 mb-4 border-bottom"> 
          <h1 class="reflect"><i>NEXA</i></h1>
      
-         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+         <ul class="nav col-12 col-md-auto mb-2 justify-content-center ">
              <% if (currentUser && currentUser._id) { %>
              <li>
-                <a href='/user/<%= currentUser._id %>/home' class=" nav-link px-2" style="margin-right:-20px;margin-top: -10px; justify-self: center;">
+                <a href='/user/<%= currentUser._id %>/home' class=" nav-link " id="link1" >
                    <div class="imgnav" title="Home Page" id="add">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-house" viewBox="0 0 16 16">
                          <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"></path>
@@ -59,6 +59,6 @@
              </li> 
                <% } %> 
          </ul>  
-
-    </header>
+ </header>
    </div>
+   

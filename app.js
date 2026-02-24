@@ -85,14 +85,15 @@ const transporter=nodemailer.createTransport({
  var array=[]
 app.get('/user/:userid/blog', (req,res)=>{
 
-res.render('blog')
+res.render('blog',
+    {currentUser: { _id: req.params.userid }})
  })
 
 app.get('/user/:userid/about', (req,res)=>{
-res.render('about')
+res.render('about', {currentUser: { _id: req.params.userid }})
  })
  app.get('/user/:userid/contact', (req,res)=>{
-res.render('contact')
+res.render('contact', {currentUser: { _id: req.params.userid }})
  })
 app.post('/', async (req, res) => {
   const { email, password } = req.body;

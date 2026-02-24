@@ -140,15 +140,16 @@ box-shadow: 3px 3px 10px black;
 justify-self: center;
 align-content: center;
 text-align: center;
-margin-bottom: 30px;
-
+margin-bottom: 60px;
+padding-bottom: 50px;
 }
 .social{
     width: 50px;
     height: 50px;
     border-radius: 10px;
     margin: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
+
 }
 #blogpost:hover{
     box-shadow: 5px 5px 10px black ;
@@ -288,7 +289,9 @@ align-content: center;
 .contactcontainer{
     display: flex;flex-direction: column;height: 470px; gap: 10px; justify-self: center; align-self: center;justify-content: center;align-content:center;
 }
-
+#link1{
+    margin-right:30px;margin-top: -10px; justify-self: center 
+}
 
 @media(max-width:500px){
     body{
@@ -335,7 +338,9 @@ align-content: center;
     box-shadow: 1px 1px 5px black;
     background-color: white;
 }
-
+#link1{
+    margin-right: -20px;
+}
 .form-signin{
     width: 350px !important;
     display: flex;
@@ -349,7 +354,9 @@ align-content: center;
   margin-bottom:-50px;
     visibility: visible;
  }
-
+#nexacon{
+    margin-top: -50px;
+}
    
 .d-flex{
     width: 400px;
