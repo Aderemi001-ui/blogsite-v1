@@ -13,6 +13,10 @@ overflow: auto;
     text-align: center;
     
 }
+#nav2{
+    margin-left: -130px;
+    margin-top: -10px;
+}
  .reflect{
     margin-left:-470px;
     margin-right: 500px;
@@ -304,6 +308,9 @@ align-content: center;
     align-content: center;
   
 }
+.reflect{
+    margin-bottom: -40px !important;
+}
 .content{
    display: flex !important;
    flex-direction: column !important;
@@ -445,6 +452,9 @@ margin-left: 10px;
    width:400px !important;
    justify-self: center;
    margin-left: 20px;   
+}
+.nav{
+    margin-left: 130px;
 }
 .text{
     width: 350px;
