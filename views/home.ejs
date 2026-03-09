@@ -1,4 +1,5 @@
 <%- include('header') -%>
+
  <div class="container-fluid">
     
   <div style="width: 30px;height: 30px;border: 1px solid black;border-radius: 5px;justify-content: center;align-content: center;background-color: white;">
@@ -87,17 +88,17 @@ Filter By:
  </div>
 <div class="content">
   
-    <% posts.forEach(post=>{ %>
+    <% for(i=0;i<posts.length;i++){ %>
      
           <div id="blogpost" >
  
             
- <h2 style="text-align: center;"><%= post.title %></h2>
- <p> <%=post.content.substring(0,50) %>...</p>
-<a href="/user/<%= currentUser._id %>/posts/<%= post._id%>">Read More</a>
+ <h2 style="text-align: center;"><%= posts[i].title %></h2>
+ <p> <%=posts[i].content.substring(0,50) %>...</p>
+<a href="/user/<%= currentUser._id %>/posts/<%= posts[i]._id%>">Read More</a>
 <div style="margin-top: 200px; display: flex;">
    <div class="categories mx-3 my-5"  style="justify-content: space-between;gap: 50px;margin-bottom: 40px;">
-  <p><%= post.category %></p>
+  <p><%= posts[i].category %></p>
  
 </div>
 
@@ -105,7 +106,7 @@ Filter By:
  </div>
 
  
-<% }) %>
+<% } %>
 
 
 </div>

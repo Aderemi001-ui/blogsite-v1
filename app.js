@@ -54,21 +54,21 @@ app.use((req, res, next) => {
     
   })
   
-  blogSchema=new mongoose.Schema({
-    userId:mongoose.Schema.Types.ObjectId,
-title:String,
-content:String,
-category:String
- })
+ 
  userSchema=new mongoose.Schema({
     id:mongoose.Schema.Types.ObjectId,
     FirstName:String,
     LastName:String,
     email:String,
     password:String,
-blogSchema:String
+blog:[{
+     userId:mongoose.Schema.Types.ObjectId,
+title:String,
+content:String,
+category:String
+}]
   })
-const blogTask=mongoose.model('blogTask',blogSchema)
+
 const user= mongoose.model('user',userSchema)
 
 
@@ -131,7 +131,7 @@ try{
     if(!user_x){
         user.create(credentials)
         console.log('User successfully registered',)
-     array.push(user_x._id)
+    
 
         res.redirect('/')
     }else{
@@ -179,37 +179,43 @@ console.error('Error sending mail',error)
 res.status(500).json({error:'Failed to send email'})
     }
  })
-app.post('/user/:userid/blog', (req,res)=>{
-const post={
-    title:req.body.title,
-    content:req.body.message ,
-    category:req.body.category,
-    poster:req.params.Firstname
-}
-blogTask.create(post)
-.then(()=>{
-console.log(post)
+app.post('/user/:userid/blog', async (req, res) => {
+  try {
+    const currentUser = await user.findById(req.params.userid);
+    if (!currentUser) {
+      return res.status(404).send("User not found");
+    }
 
-res.redirect('/user/:userid/home')
+    const newPost = {
+      title:    req.body.title,
+      content:  req.body.message,   // your form uses 'message'
+      category: req.body.category 
+    };
 
-})
-.catch(error=>{
-    console.error('Error creating post', error)
-})
+    currentUser.blog.push(newPost);
+    await currentUser.save();
 
- })
-
+    console.log("Post added for user:", currentUser._id);
+    res.redirect(`/user/${req.params.userid}/home`);
+  } catch (err) {
+    console.error("Error creating post:", err);
+    res.redirect(`/user/${req.params.userid}/blog`);
+  }
+});
  
 
  app.get('/user/:userid/home', async (req, res) => {
   try {
-    const posts = await blogTask.find()
-      .sort({ _id: -1 })          // newest first
-      .lean();                    // better performance for plain objects
+    const currentUser = await user.findById(req.params.userid);
+    if (!currentUser) {
+      return res.render('home', { posts: [], error: 'User not found' });
+    }
 
-    res.render('home', { 
-      posts,
-      // currentUser is already set by middleware, but we can make sure
+    // newest first
+    const posts = currentUser.blog
+
+    res.render('home', {
+      posts:posts,
       currentUser: { _id: req.params.userid }
     });
   } catch (err) {
@@ -218,63 +224,90 @@ res.redirect('/user/:userid/home')
   }
 });
 
- app.get('/user/:userid/categories/:category',(req,res)=>{ 
-    const category= req.params.category
-    blogTask.find({category:category})
- .then(posts=>{
-    console.log('Posts found',)
-res.render('category',{task:posts,category:category})
- })
- .catch(error=>{
-    console.log('Error fetching tasks',error)
- })
- })
- app.delete('/user/:userid/posts/:id',(req,res)=>{
-    blogTask.findByIdAndDelete(req.params.id)
-    .then(()=>{
-        
-        console.log('Post successfully deleted')
-        res.sendStatus(200)
-        
-    })
-.catch(error=>{
-    console.error('Error deleting posts',error)
-})
- })
- app.get('/user/:userid/posts/:id/edit',(req,res)=>{
-    blogTask.findById(req.params.id)
-    .then(task=>{
-        console.log('Post found')
-        res.render('edit',{task:task})
-    })
-    .catch(error=>{
-        console.error('Error fetching task',error)
-        res.status(400).send()
-    })
- })
- app.put('/user/:userid/posts/:id',(req,res)=>{
-  const find=  blogTask.findByIdAndUpdate(req.params.id,{title:req.body.title,content:req.body.content})
-    .then(()=>{
-    console.log('Post has been updated successfully ')
-    
-   res.json(find)
-    })
-    .catch(error=>{
-        console.error('Error updating tasks',error)
-    })
- })
- app.get('/user/:userid/posts/:id' ,(req,res)=>{
-blogTask.findById(req.params.id)
-.then( task=>{
-    res.render('post',{task:task})
-console.log(task)
-})
+ app.get('/user/:userid/categories/:category', async (req, res) => {
+  try {
+    const currentUser = await user.findById(req.params.userid);
+    if (!currentUser) return res.render('category', { task: [], category: req.params.category });
 
-.catch(error=>{
-    console.error('Error fetching tasks:',error)
-})
+    const filteredPosts = currentUser.blog.filter(
+      p => p.category.toLowerCase() === req.params.category.toLowerCase()
+    );
 
- })
+    res.render('category', {
+      task:     filteredPosts,
+      category: req.params.category,
+      currentUser:{_id:req.params.userid}
+    });
+  } catch (err) {
+    console.error('Category error:', err);
+    res.render('category', { task: [], category: req.params.category });
+  }
+});
+app.delete('/user/:userid/posts/:id', async (req, res) => {
+  try {
+    const currentUser = await user.findById(req.params.userid);
+    if (!currentUser) return res.status(404).send("User not found");
+
+    const post = currentUser.blog.id(req.params.id);
+    if (!post) return res.status(404).send("Post not found");
+
+    post.remove();   // removes from array
+    await currentUser.save();
+
+    res.sendStatus(200);
+  } catch (err) {
+    console.error('Delete error:', err);
+    res.status(500).send();
+  }
+});
+app.get('/user/:userid/posts/:id/edit', async (req, res) => {
+  try {
+    const currentUser = await user.findById(req.params.userid);
+    if (!currentUser) return res.status(404).send("User not found");
+
+    const post = currentUser.blog.id(req.params.id);
+    if (!post) return res.status(404).send("Post not found");
+
+    res.render('edit', { task: post });
+  } catch (err) {
+    console.error('Error loading edit page:', err);
+    res.status(500).send();
+  }
+});
+app.put('/user/:userid/posts/:id', async (req, res) => {
+  try {
+    const currentUser = await user.findById(req.params.userid);
+    if (!currentUser) return res.status(404).json({ error: "User not found" });
+
+    const post = currentUser.blog.id(req.params.id);
+    if (!post) return res.status(404).json({ error: "Post not found" });
+
+    post.title    = req.body.title    || post.title;
+    post.content  = req.body.content  || post.content;
+    // post.category = req.body.category || post.category;   // add if your form sends it
+
+    await currentUser.save();
+
+    res.json(post);
+  } catch (err) {
+    console.error('Update error:', err);
+    res.status(500).json({ error: 'Update failed' });
+  }
+});
+app.get('/user/:userid/posts/:id', async (req, res) => {
+  try {
+    const currentUser = await user.findById(req.params.userid);
+    if (!currentUser) return res.status(404).send("User not found");
+
+    const post = currentUser.blog.id(req.params.id);   // Mongoose subdocument .id()
+    if (!post) return res.status(404).send("Post not found");
+
+    res.render('post', { task: post });
+  } catch (err) {
+    console.error('Error fetching post:', err);
+    res.status(500).send('Server error');
+  }
+});
  app.post('/admin-login',(req,res)=>{
      const {user}=req.body
     const {pass}=req.body
@@ -283,7 +316,7 @@ console.log(task)
     try{
 if(user!==username && pass!==password){
     console.log('Wrong sign in parameters!')
- res.redirect('/home/admin-login')
+ res.redirect('/admin-login')
  modal.showModal()
 
 }else{
@@ -304,30 +337,30 @@ if(user!==username && pass!==password){
         console.log('Error deleting user!! ',error)
     })
  })
-  app.delete('/admin-home/:id',(req,res)=>{
-    blogTask.findByIdAndDelete(req.params.id)
-    .then(()=>{
-        console.log('User successfully deleted!')
-        res.redirect('admin-home')
-    })
-    .catch(error=>{
-        console.log('Error deleting task!! ',error)
-    })
- })
- app.get('/admin-home',(req,res)=>{
-    blogTask.find()
-.then(posts=>{
+//   app.delete('/admin-home/:id',(req,res)=>{
+//     blogTask.findByIdAndDelete(req.params.id)
+//     .then(()=>{
+//         console.log('User successfully deleted!')
+//         res.redirect('admin-home')
+//     })
+//     .catch(error=>{
+//         console.log('Error deleting task!! ',error)
+//     })
+//  })
+//  app.get('/admin-home',(req,res)=>{
+//     blogTask.find()
+// .then(posts=>{
     
-res.render('admin-home',{posts:posts})
-console.log(posts)
+// res.render('admin-home',{posts:posts})
+// console.log(posts)
 
-})
-.catch(error=>{
-    console.error('Error fetching posts: ',error)
-    res.render('home')
-})
+// })
+// .catch(error=>{
+//     console.error('Error fetching posts: ',error)
+//     res.render('home')
+// })
    
-})
+// })
 app.get('/admin-login',(req,res)=>{
     res.render('admin-login')
 })
