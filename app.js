@@ -268,7 +268,7 @@ app.get('/user/:userid/posts/:id/edit', async (req, res) => {
     const post = currentUser.blog.id(req.params.id);
     if (!post) return res.status(404).send("Post not found");
 
-    res.render('edit', { task: post });
+    res.render('edit', { task: post ,currentUser:{_id:req.params.userid}});
   } catch (err) {
     console.error('Error loading edit page:', err);
     res.status(500).send();
@@ -302,7 +302,9 @@ app.get('/user/:userid/posts/:id', async (req, res) => {
     const post = currentUser.blog.id(req.params.id);   // Mongoose subdocument .id()
     if (!post) return res.status(404).send("Post not found");
 
-    res.render('post', { task: post });
+    res.render('post',
+      {currentUser:{_id:req.params.userid}, task: post },
+       );
   } catch (err) {
     console.error('Error fetching post:', err);
     res.status(500).send('Server error');
