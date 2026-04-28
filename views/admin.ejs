@@ -155,9 +155,8 @@ Filter By:
 </style>
 <script>
   function remover(id){
-    axios.delete(`/home/admin/${id}`)
+    axios.delete(`/admin/${id}`)
     .then(()=>{
-     
       console.log('post deleted successfully')
       location.reload()
     })
@@ -165,6 +164,7 @@ Filter By:
       console.error('Error deleting post',error)
     })
   }
+
   const check=document.querySelectorAll('#check')
 const deleter=document.querySelectorAll('#delete')
 

@@ -141,6 +141,7 @@ box-shadow: 3px 3px 10px black;
  display: grid;
  grid-template-columns: 1fr ;
    height: 620px;
+   margin-left: 530px;
 justify-self: center;
 align-content: center;
 text-align: center;
@@ -228,8 +229,8 @@ padding-bottom: 50px;
     width:400px !important;margin-left: 450px !important;
 }
 .mtitle{
-     width:360px !important;
-   
+     width:420px !important;
+   margin-left: -35px;
      justify-self: center;
 border: none;
 border-radius: 5px;
@@ -242,8 +243,9 @@ height: 50px;
    
 }
 .text{
-    width: 360px;
+    width: 420px;
     height: 200px;
+    margin-left: -35px;
  border: none;
  border-radius: 5px;
     justify-self: center;
@@ -283,9 +285,10 @@ margin-left: 200px;
 
 
 .contactform{
+    margin-left: 500px;
     box-shadow:3px 0 10px black;
     border-radius: 15px;
-width:400px;
+width:450px;
 height: 500px;
 justify-content: center;
 align-content: center;

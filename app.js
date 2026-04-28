@@ -2,15 +2,16 @@ const express=  require('express')
 const bodyParser=require('body-parser')
 const _=require('lodash')
 const ejs=require('ejs')
-const mongoose=require('mongoose')
- require('dotenv').config()
 
+
+const authRoutes=require('./router/authRoutes')
 const nodemailer=require ('nodemailer')
 const app= express()
  app.use(express.static('public'))
  app.use(bodyParser.urlencoded({extended:true}))
  app.set('view engine','ejs')
  app.use(express.json())
+const user=require('./model/user')
 
 // ────────────────────────────────────────────────
 // Add this middleware - makes currentUser available in all views
@@ -27,54 +28,7 @@ app.use((req, res, next) => {
   next();
 });
   
- const response= mongoose.connect('mongodb://glamaurora001_db_user:3z9NNLq7hK989iZ8@ac-kucepce-shard-00-00.tk57p3b.mongodb.net:27017,ac-kucepce-shard-00-01.tk57p3b.mongodb.net:27017,ac-kucepce-shard-00-02.tk57p3b.mongodb.net:27017/?ssl=true&replicaSet=atlas-k4hwfx-shard-0&authSource=admin&appName=BLOGSITE-V1')
-  
- response.then(()=>{
-     console.log('SERVER RUNNING ON MONGODB ATLAS')
- })
- .catch(error=>{
-    console.error('Error connecting to atlas server',error)
- })
- 
- const posts=[]
-
- 
-  adminSchema=new mongoose.Schema({
-    username:{
-        type:String,
-        required:true,
-    },
-       password:{
-        type:String,
-        required:true
-       },
-      userSchema:{
-        type:String
-       }
-    
-  })
-  
- 
- userSchema=new mongoose.Schema({
-    id:mongoose.Schema.Types.ObjectId,
-    FirstName:String,
-    LastName:String,
-    email:String,
-    password:String,
-blog:[{
-     userId:mongoose.Schema.Types.ObjectId,
-title:String,
-content:String,
-category:String
-}]
-  })
-
-const user= mongoose.model('user',userSchema)
-
-
-
-const admin= mongoose.model('admin',adminSchema)
-const transporter=nodemailer.createTransport({
+ const transporter=nodemailer.createTransport({
     service:'gmail',
     auth:{
         user:'abdulquadriaderemi52@gmail.com',
@@ -95,67 +49,13 @@ res.render('about', {currentUser: { _id: req.params.userid }})
  app.get('/user/:userid/contact', (req,res)=>{
 res.render('contact', {currentUser: { _id: req.params.userid }})
  })
-app.post('/', async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const foundUser = await user.findOne({ email: email });
-
-    if (!foundUser || foundUser.password !== password) {   // ← note: plaintext comparison (bad!)
-      return res.render('login', { error: 'Invalid email or password' });
-    }
-
-    // Redirect with user ID in URL (temporary — sessions would be better)
-    res.redirect(`/user/${foundUser._id}/home`);
-    
-  } catch (err) {
-    console.error('Login error:', err);
-    res.render('login', { error: 'Something went wrong' });
-  }
-});
-
- app.get('/',(req,res)=>{
-    res.render('login')
- })
-app.post('/signup',(req,res)=>{
-  const credentials={
-      email:req.body.email,
-      password:req.body.password,
-     fullname:req.body.name
-  }
-   
-try{
-  user.findOne({email:credentials.email}&&{password:credentials.password})
-.then(user_x=>{
-     
-    if(!user_x){
-        user.create(credentials)
-        console.log('User successfully registered',)
-    
-
-        res.redirect('/')
-    }else{
-        console.log('User with same credentials already exists,Pls sign in with right credentials instead!')
-
-        console.log(user_x)
-res.render('login')
-    }
-
-})
-.catch(error=>{
-console.log('Error registering user',error)
-})
 
 
-}catch(error){
-console.log(error)
-}
-})
+ 
 
 
- app.get('/signup',(req,res)=>{
-    res.render('signup')
- })
+
+ 
  app.post('/user/:userid/contact',async(req,res)=>{
     const subject=req.body.messagetitle
     const message=`
@@ -333,7 +233,7 @@ if(user!==username && pass!==password){
     user.findByIdAndDelete(req.params.id)
     .then(()=>{
         console.log('User successfully deleted!')
-        res.render('admin')
+        res.redirect('admin')
     })
     .catch(error=>{
         console.log('Error deleting user!! ',error)
@@ -385,5 +285,5 @@ const FirstName=req.params.FName
  app.listen(3000,()=>{
     console.log('SERVER IS RUNNING ON PORT 3000!!')
  })
-
+app.use(authRoutes)
   
