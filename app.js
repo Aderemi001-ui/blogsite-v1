@@ -27,7 +27,7 @@ app.use((req, res, next) => {
   next();
 });
   
- const response= mongoose.connect('mongodb+srv://glamaurora001_db_user:rOyqavlXcENy5WOp@blogsite-v1.k7c1e2h.mongodb.net/?appName=BLOGSITE-V1')
+ const response= mongoose.connect('mongodb://glamaurora001_db_user:3z9NNLq7hK989iZ8@ac-kucepce-shard-00-00.tk57p3b.mongodb.net:27017,ac-kucepce-shard-00-01.tk57p3b.mongodb.net:27017,ac-kucepce-shard-00-02.tk57p3b.mongodb.net:27017/?ssl=true&replicaSet=atlas-k4hwfx-shard-0&authSource=admin&appName=BLOGSITE-V1')
   
  response.then(()=>{
      console.log('SERVER RUNNING ON MONGODB ATLAS')
