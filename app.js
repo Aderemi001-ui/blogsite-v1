@@ -2,8 +2,8 @@ const express=  require('express')
 const bodyParser=require('body-parser')
 const _=require('lodash')
 const ejs=require('ejs')
-
-
+const requireAuth=require('./middleware/authMiddleware')
+const cookieParser=require('cookie-parser')
 const authRoutes=require('./router/authRoutes')
 const nodemailer=require ('nodemailer')
 const app= express()
@@ -11,8 +11,9 @@ const app= express()
  app.use(bodyParser.urlencoded({extended:true}))
  app.set('view engine','ejs')
  app.use(express.json())
-const user=require('./model/user')
+const User=require('./model/user')
 
+app.use(cookieParser())
 // ────────────────────────────────────────────────
 // Add this middleware - makes currentUser available in all views
 // ────────────────────────────────────────────────
@@ -37,7 +38,7 @@ app.use((req, res, next) => {
     debug:true
 })
  var array=[]
-app.get('/user/:userid/blog', (req,res)=>{
+app.get('/user/:userid/blog',requireAuth, (req,res)=>{
 
 res.render('blog',
     {currentUser: { _id: req.params.userid }})
@@ -81,7 +82,7 @@ res.status(500).json({error:'Failed to send email'})
  })
 app.post('/user/:userid/blog', async (req, res) => {
   try {
-    const currentUser = await user.findById(req.params.userid);
+    const currentUser = await User.findById(req.params.userid);
     if (!currentUser) {
       return res.status(404).send("User not found");
     }
@@ -106,7 +107,7 @@ app.post('/user/:userid/blog', async (req, res) => {
 
  app.get('/user/:userid/home', async (req, res) => {
   try {
-    const currentUser = await user.findById(req.params.userid);
+    const currentUser = await User.findById(req.params.userid);
     if (!currentUser) {
       return res.render('home', { posts: [], error: 'User not found' });
     }
@@ -126,7 +127,7 @@ app.post('/user/:userid/blog', async (req, res) => {
 
  app.get('/user/:userid/categories/:category', async (req, res) => {
   try {
-    const currentUser = await user.findById(req.params.userid);
+    const currentUser = await User.findById(req.params.userid);
     if (!currentUser) return res.render('category', { task: [], category: req.params.category });
 
     const filteredPosts = currentUser.blog.filter(
@@ -145,7 +146,7 @@ app.post('/user/:userid/blog', async (req, res) => {
 });
 app.delete('/user/:userid/posts/:id', async (req, res) => {
   try {
-    const currentUser = await user.findById(req.params.userid);
+    const currentUser = await User.findById(req.params.userid);
     if (!currentUser) return res.status(404).send("User not found");
 
     const post = currentUser.blog.id(req.params.id);
@@ -162,7 +163,7 @@ app.delete('/user/:userid/posts/:id', async (req, res) => {
 });
 app.get('/user/:userid/posts/:id/edit', async (req, res) => {
   try {
-    const currentUser = await user.findById(req.params.userid);
+    const currentUser = await User.findById(req.params.userid);
     if (!currentUser) return res.status(404).send("User not found");
 
     const post = currentUser.blog.id(req.params.id);
@@ -176,7 +177,7 @@ app.get('/user/:userid/posts/:id/edit', async (req, res) => {
 });
 app.put('/user/:userid/posts/:id', async (req, res) => {
   try {
-    const currentUser = await user.findById(req.params.userid);
+    const currentUser = await User.findById(req.params.userid);
     if (!currentUser) return res.status(404).json({ error: "User not found" });
 
     const post = currentUser.blog.id(req.params.id);
@@ -196,7 +197,7 @@ app.put('/user/:userid/posts/:id', async (req, res) => {
 });
 app.get('/user/:userid/posts/:id', async (req, res) => {
   try {
-    const currentUser = await user.findById(req.params.userid);
+    const currentUser = await User.findById(req.params.userid);
     if (!currentUser) return res.status(404).send("User not found");
 
     const post = currentUser.blog.id(req.params.id);   // Mongoose subdocument .id()
@@ -230,7 +231,7 @@ if(user!==username && pass!==password){
     }
  })
  app.delete('/admin/:id',(req,res)=>{
-    user.findByIdAndDelete(req.params.id)
+    User.findByIdAndDelete(req.params.id)
     .then(()=>{
         console.log('User successfully deleted!')
         res.redirect('admin')
@@ -269,7 +270,7 @@ app.get('/admin-login',(req,res)=>{
 app.get('/admin',(req,res)=>{
 const FirstName=req.params.FName
     const LastName=req.params.LName
-    user.find(req.params.id)
+    User.find(req.params.id)
     .then(users=>{
         console.log(users)
         console.log('All registered users found!!')

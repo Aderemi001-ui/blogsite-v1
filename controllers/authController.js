@@ -1,6 +1,10 @@
-const user=require('../model/user')
+const User=require('../model/user')
 const bcrypt=require('bcrypt')
-
+const jwt=require('jsonwebtoken')
+const maxAge=3*24*60*60
+const createToken=(id)=>{
+  return jwt.sign({id},'This is my token',{expiresIn:maxAge})
+}
 module.exports.signup_get=(req,res)=>{
     res.render('signup')
 }
@@ -15,13 +19,14 @@ module.exports.signup_post=async(req,res)=>{
    
   
 try{
-  await user.findOne({email:credentials.email}&&{password:credentials.password})
+  await User.findOne({email:credentials.email}&&{password:credentials.password})
 .then(user_x=>{
      
     if(!user_x){
-   user.create(credentials)
+   User.create(credentials)
         console.log('User successfully registered',)
-    
+    const token=createToken(user_x._id)
+    res.cookie('jwt',token,{maxAge:maxAge*1000*60*60*24})
 
         res.redirect('/')
     }else{
@@ -46,20 +51,11 @@ module.exports.login_post=async(req,res)=>{
      const { email, password } = req.body;
 
   try {
-    const foundUser =await user.findOne({ email: email });
-
-    if (!foundUser) {   // ← note: plaintext comparison (bad!)
-      return res.render('login', { error: 'Invalid email or password' });
-    }else{
-      const isMatch=await bcrypt.compare(password,foundUser.password)
-    if(isMatch){  
- res.redirect(`/user/${foundUser._id}/home`);
-    }
-    return  { error: 'Invalid email or password' };
-    }
-
-   
-    
+    console.log('User successfully logged in');
+  const user=await User.login(email,password)
+  const token=createToken(user._id)
+  res.cookie('jwt',token,{maxAge:maxAge*1000})
+   res.redirect(`/user/${user._id}/home`);
   } catch (err) {
     console.error('Login error:', err);
     res.render('login', { error: 'Something went wrong' });
