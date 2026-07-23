@@ -120,8 +120,7 @@
   </div>
  </div>
 
-    
-    <form  method="POST" id="card" >
+    <form  method="POST" id="card" enctype="multipart/form-data">
     <div class="wordivs px-3">
         <label>TITLE :-</label>
         <input type="text" required id="title" name="title">
@@ -129,6 +128,10 @@
      <div class="wordivs px-3">
         <label>MESSAGE :-</label>
         <textarea required  id="message" name="message"></textarea>
+
+     </div>
+      <div class="imgdiv">
+      <input type="file"  id="img" name="image" accept="/*">
      </div>
     <div>
        <label class="label mx-4"> POST CATEGORY:-</label>
@@ -145,7 +148,8 @@
                <option>Business</option>
                 <option>Personal Development</option>
      </select>
-</div>
+
+     </div>
       <div>
         <button  class="btn btn-primary">POST</button>
       </div>
@@ -160,5 +164,9 @@ margin-left: 500px;
   }
  }
 </style>
+<script>
+
+   
+</script>
 
 <%- include('footer') -%>

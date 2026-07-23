@@ -14,34 +14,29 @@ module.exports.signup_post=async(req,res)=>{
  const credentials={
       email:req.body.email,
       password:hashpass,
-     fullname:req.body.name
+     fullname:req.body.name,
+     username:req.body.username
   }
    
   
 try{
-  await User.findOne({email:credentials.email}&&{password:credentials.password})
-.then(user_x=>{
-     
-    if(!user_x){
+  const foundUser=await User.findOne({email:credentials.email}&&{password:credentials.password})
+    if(!foundUser){
    User.create(credentials)
         console.log('User successfully registered',)
-    const token=createToken(user_x._id)
-    res.cookie('jwt',token,{maxAge:maxAge*1000*60*60*24})
-
+    
+console.log(foundUser)
         res.redirect('/')
     }else{
         console.log('User with same credentials already exists,Pls sign in with right credentials instead!')
 
-        console.log(user_x)
+        console.log(foundUser)
 res.render('login')
     }
 
-})
-.catch(error=>{
-console.log('Error registering user',error)
-})
+
 }catch(error){
-console.log(error)
+console.log('Error registering user',error)
 }
 }
 module.exports.login_get=(req,res)=>{

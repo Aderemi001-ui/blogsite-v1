@@ -1,7 +1,7 @@
 const mongoose=require('mongoose')
 const bcrypt=require('bcrypt')
  require('dotenv').config()
-const response= mongoose.connect('mongodb://glamaurora001_db_user:3z9NNLq7hK989iZ8@ac-kucepce-shard-00-00.tk57p3b.mongodb.net:27017,ac-kucepce-shard-00-01.tk57p3b.mongodb.net:27017,ac-kucepce-shard-00-02.tk57p3b.mongodb.net:27017/?ssl=true&replicaSet=atlas-k4hwfx-shard-0&authSource=admin&appName=BLOGSITE-V1')
+const response= mongoose.connect(process.env.MONGODB_URI)
  response.then(()=>{
      console.log('SERVER RUNNING ON MONGODB ATLAS')
  })
@@ -32,13 +32,21 @@ const response= mongoose.connect('mongodb://glamaurora001_db_user:3z9NNLq7hK989i
     LastName:String,
     email:String,
     password:String,
+    username:String,
 blog:[{
      userId:mongoose.Schema.Types.ObjectId,
 title:String,
 content:String,
+image:{
+  data:Buffer,
+  contentType:String
+},
+createdAt:{type:Date,default:Date.now},
+
 category:String
 }]
-  })
+  }
+)
 
 userSchema.statics.login=async function(email,password){
    const foundUser =await this.findOne({ email: email });

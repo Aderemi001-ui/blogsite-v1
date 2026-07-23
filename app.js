@@ -6,6 +6,7 @@ const requireAuth=require('./middleware/authMiddleware')
 const cookieParser=require('cookie-parser')
 const authRoutes=require('./router/authRoutes')
 const nodemailer=require ('nodemailer')
+const upload=require('./middleware/multer')
 const app= express()
  app.use(express.static('public'))
  app.use(bodyParser.urlencoded({extended:true}))
@@ -14,9 +15,7 @@ const app= express()
 const User=require('./model/user')
 
 app.use(cookieParser())
-// ────────────────────────────────────────────────
-// Add this middleware - makes currentUser available in all views
-// ────────────────────────────────────────────────
+
 app.use((req, res, next) => {
   res.locals.currentUser = null;
 
@@ -80,30 +79,42 @@ console.error('Error sending mail',error)
 res.status(500).json({error:'Failed to send email'})
     }
  })
-app.post('/user/:userid/blog', async (req, res) => {
+ app.get('/user/:userid/blog/image/:postId', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userid);
+    const post = user.blog.id(req.params.postId);
+    
+    if (!post?.image?.data) return res.status(404).send('No image');
+
+    res.set('Content-Type', post.image.contentType);
+    res.send(post.image.data);
+  } catch (err) {
+    res.status(500).send('Error');
+  }
+});
+app.post('/user/:userid/blog',upload.single('image'), async (req, res) => {
   try {
     const currentUser = await User.findById(req.params.userid);
     if (!currentUser) {
       return res.status(404).send("User not found");
     }
-
+ 
     const newPost = {
       title:    req.body.title,
-      content:  req.body.message,   // your form uses 'message'
+      content:  req.body.message, 
+      username:req.body.username,
+      image:req.file?{data:req.file.buffer,contentType:req.file.mimetype}:undefined,
       category: req.body.category 
     };
-
     currentUser.blog.push(newPost);
     await currentUser.save();
-
-    console.log("Post added for user:", currentUser._id);
+    console.log("Post added for user:", currentUser);
     res.redirect(`/user/${req.params.userid}/home`);
   } catch (err) {
     console.error("Error creating post:", err);
     res.redirect(`/user/${req.params.userid}/blog`);
   }
 });
- 
 
  app.get('/user/:userid/home', async (req, res) => {
   try {
@@ -117,7 +128,8 @@ app.post('/user/:userid/blog', async (req, res) => {
 
     res.render('home', {
       posts:posts,
-      currentUser: { _id: req.params.userid }
+      currentUser: { _id: req.params.userid,username:req.params.username },
+
     });
   } catch (err) {
     console.error('Error loading home:', err);
@@ -273,7 +285,7 @@ const FirstName=req.params.FName
     User.find(req.params.id)
     .then(users=>{
         console.log(users)
-        console.log('All registered users found!!')
+        console.log('All registered users found!!',users)
          res.render('admin',{credentials:users})
     })
     .catch(error=>{

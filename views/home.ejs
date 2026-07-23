@@ -92,15 +92,25 @@ Filter By:
      
           <div id="blogpost" >
  
-            
+            <% console.log(posts[i]); %>
+             <div class="categories mx-3"  style="justify-content: space-between;gap: 50px;margin-bottom: 40px;">
+  <p><%= posts[i].category %></p>
+ <h4><%= currentUser.username %></h4>
+</div>  
  <h2 style="text-align: center;"><%= posts[i].title %></h2>
+ <img src="<%= posts[i].image %>" alt="">
+<% if (posts[i].image && posts[i].image.data) { %]>
+  <img 
+    src="data:<%= posts[i].image.contentType %>;base64,<%= posts[i].image.data.toString('base64') %>" 
+   
+    style="width: 500px; height: 500px;justify-content: center;align-items: center">
+<% } %>
  <p> <%=posts[i].content.substring(0,50) %>...</p>
 <a href="/user/<%= currentUser._id %>/posts/<%= posts[i]._id%>">Read More</a>
+
 <div style="margin-top: 200px; display: flex;">
-   <div class="categories mx-3 my-5"  style="justify-content: space-between;gap: 50px;margin-bottom: 40px;">
-  <p><%= posts[i].category %></p>
+  
  
-</div>
 
  </div>
  </div>
