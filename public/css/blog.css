@@ -144,7 +144,7 @@ box-shadow: 3px 3px 10px black;
  display: grid;
  grid-template-columns: 1fr ;
    height: 620px;
-   margin-left: 530px;
+   margin-left: 100px;
 justify-self: center;
 align-content: center;
 text-align: center;
@@ -206,7 +206,7 @@ padding-bottom: 50px;
 #card{
     display: flex;
     flex-direction: column;
-    margin-left: -40px !important;
+    margin-left: -40px ;
     align-items: center;
     justify-content: center;
     gap:7px;
@@ -290,7 +290,8 @@ width: 200px;
 
 
 .contactform{
-    margin-left: 500px;
+   
+    margin-left: 100px;
     box-shadow:3px 0 10px black;
     border-radius: 15px;
 width:450px;
@@ -299,7 +300,30 @@ justify-content: center;
 align-content: center;
 }
 .contactcontainer{
-    display: flex;flex-direction: column;height: 470px; gap: 10px; justify-self: center; align-self: center;justify-content: center;align-content:center;
+    display: flex;flex-direction: column;height: 470px; gap: 10px; justify-self: center; align-self: center;justify-content: center !important;align-content:center;
+}
+#titlecontact{
+    width: 400px;
+    height: 50px;
+    border-radius: 5px;
+    border: none;
+    margin-left: 20px;
+    padding-left:5px ;
+}
+#emailcontact{
+    width: 400px;
+    height: 50px;
+    border-radius: 5px;
+    border: none;
+    margin-left: 50px;
+    padding-left: 5px;
+}
+#messagecontact{
+    width: 420px;
+    height: 200px;
+    border-radius: 5px;
+    border: none;
+    margin-left: 50px;
 }
 #link1{
     margin-right:30px;margin-top: -10px; justify-self: center 
@@ -314,7 +338,7 @@ align-content: center;
     overflow: none;
     justify-content: center;
     align-content: center;
-  
+  overflow-y:hidden;
 }
 .reflect{
     margin-bottom: -40px !important;
@@ -335,11 +359,11 @@ align-content: center;
 }
 .containernav2{
     display: flex;
-    margin-top: -800px;
+    margin-top: -650px;
     justify-content: center;
     align-content: center;
     text-align: center;
-    width: 500px;
+    width: 700px;
 
 }
 #add{
@@ -399,16 +423,17 @@ align-content: center;
 #card{
     display: flex;
     flex-direction: column;
-margin-left: -8px;
+justify-self: center !important;
+align-self: center !important;
     align-items: center;
     justify-content: center;
     gap:7px;
     background-color:white;
-    width: 386px;
+    width: 430px;
     height: 450px;
     box-shadow: 5px 5px 10px black;
     border-radius: 15px;
-
+margin-left: 90px !important;
 }
 .socialdiv{
     background-color:#dde1e4;
@@ -450,12 +475,22 @@ margin-left: -8px;
 }
 
 .mtitle{
-     width:350px !important;
+     width:420px !important;
      justify-self: center;
 border: none;
 border-radius: 5px;
 height: 50px;
 margin-left: 10px;
+}
+#title{
+   width: 400px;
+   margin-left: -25px;
+   border-radius: 10px;
+}
+#message{
+    width:400px;
+    margin-left: -25px;
+    border-radius: 10px;
 }
 .mlabel{
    width:400px !important;
@@ -479,16 +514,18 @@ margin-left: 10px;
 .contactform{
     box-shadow:3px 0 10px black;
     border-radius: 15px;
-width:400px;
+width:450px;
 height: 500px;
 justify-content: center;
 align-content: center;
 justify-self: center;
 align-self: center;
-margin-left: 40px;
+margin-left: 150px;
 }
 .contactcontainer{
     display: flex;flex-direction: column;height: 470px; gap: 10px; justify-self: center; align-self: center;justify-content: center;align-content:center;
 }
-
+.contactcontainer>h1{
+    margin-left: 60px !important;
+}
 }

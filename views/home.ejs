@@ -99,7 +99,7 @@ Filter By:
 </div>  
  <h2 style="text-align: center;"><%= posts[i].title %></h2>
  <img src="<%= posts[i].image %>" alt="">
-<% if (posts[i].image && posts[i].image.data) { %]>
+<% if (posts[i].image && posts[i].image.data) { %>
   <img 
     src="data:<%= posts[i].image.contentType %>;base64,<%= posts[i].image.data.toString('base64') %>" 
    
